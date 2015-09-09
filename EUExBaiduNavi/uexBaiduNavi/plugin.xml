@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<uexplugins>
+    <plugin name="uexBaiduNavi">
+        
+        <method name="init"></method>
+        <method name="startRoutePlan"></method>
+        <method name="startNavi"></method>
+        <method name="exitNavi"></method>
+        <method name="startDigitDog"></method>
+        <method name="loadExternalGPSData"></method>
+        <method name="startExternalGPSNavi"></method>
+        <method name="startExternalGPSDigitDog"></method>
+    </plugin>
+    
+</uexplugins>
