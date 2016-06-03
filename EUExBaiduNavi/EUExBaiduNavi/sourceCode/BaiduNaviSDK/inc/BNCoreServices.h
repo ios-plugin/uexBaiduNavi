@@ -98,6 +98,16 @@
  */
 - (void)setNaviTTSdelayTime:(double)delayTime;
 
+#pragma mark - data type transfer
+/**
+ *  coordinate conversion
+ *
+ *  @param coordinate in wgs84ll standard
+ *
+ *  @return coordinate in BD09ll standard
+ */
+- (CLLocationCoordinate2D)convertToBD09MCWithWGS84ll:(CLLocationCoordinate2D)coordinate;
+
 
 #pragma mark - 获取提供各种服务的实体对象
 

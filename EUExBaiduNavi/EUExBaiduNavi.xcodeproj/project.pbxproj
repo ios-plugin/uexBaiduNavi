@@ -7,17 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4257CE7C1BA01755006F15B7 /* libbaiduNaviSDK_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4257CE781BA01755006F15B7 /* libbaiduNaviSDK_arm64.a */; };
-		4257CE7D1BA01755006F15B7 /* libbaiduNaviSDK_armv7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4257CE791BA01755006F15B7 /* libbaiduNaviSDK_armv7.a */; };
-		4257CE7E1BA01755006F15B7 /* libbaiduNaviSDK_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4257CE7A1BA01755006F15B7 /* libbaiduNaviSDK_i386.a */; };
-		4257CE7F1BA01755006F15B7 /* libbaiduNaviSDK_x86_64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4257CE7B1BA01755006F15B7 /* libbaiduNaviSDK_x86_64.a */; };
+		3C06E6081D012C4E00C7F84F /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C06E5FC1D012C4E00C7F84F /* libBaiduMobStat.a */; };
+		3C06E6191D01361C00C7F84F /* libbaiduNaviSDK_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C06E6151D01361C00C7F84F /* libbaiduNaviSDK_arm64.a */; };
+		3C06E61A1D01361C00C7F84F /* libbaiduNaviSDK_armv7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C06E6161D01361C00C7F84F /* libbaiduNaviSDK_armv7.a */; };
+		3C06E61B1D01361C00C7F84F /* libbaiduNaviSDK_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C06E6171D01361C00C7F84F /* libbaiduNaviSDK_i386.a */; };
+		3C06E61C1D01361C00C7F84F /* libbaiduNaviSDK_x86_64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C06E6181D01361C00C7F84F /* libbaiduNaviSDK_x86_64.a */; };
 		42FAB2A51B9E6EE200AD59E9 /* EUExBaiduNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FAB2A41B9E6EE200AD59E9 /* EUExBaiduNavi.m */; };
-		42FAB2D91B9E70BD00AD59E9 /* libBaiduMobStatForSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FAB2AC1B9E70BD00AD59E9 /* libBaiduMobStatForSDK.a */; };
-		42FAB2DC1B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FAB2B41B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		42FAB2DF1B9E70BD00AD59E9 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FAB2BB1B9E70BD00AD59E9 /* CDataScanner_Extensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		42FAB2E01B9E70BD00AD59E9 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FAB2BD1B9E70BD00AD59E9 /* NSCharacterSet_Extensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		42FAB2E11B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FAB2BF1B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		42FAB2E21B9E70BD00AD59E9 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FAB2C11B9E70BD00AD59E9 /* NSScanner_Extensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,10 +28,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4257CE781BA01755006F15B7 /* libbaiduNaviSDK_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_arm64.a; sourceTree = "<group>"; };
-		4257CE791BA01755006F15B7 /* libbaiduNaviSDK_armv7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_armv7.a; sourceTree = "<group>"; };
-		4257CE7A1BA01755006F15B7 /* libbaiduNaviSDK_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_i386.a; sourceTree = "<group>"; };
-		4257CE7B1BA01755006F15B7 /* libbaiduNaviSDK_x86_64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_x86_64.a; sourceTree = "<group>"; };
+		3C06E5F91D012C4E00C7F84F /* baiduNaviSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = baiduNaviSDK.bundle; sourceTree = "<group>"; };
+		3C06E5FB1D012C4E00C7F84F /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
+		3C06E5FC1D012C4E00C7F84F /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
+		3C06E5FE1D012C4E00C7F84F /* BNCommonDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNCommonDef.h; sourceTree = "<group>"; };
+		3C06E5FF1D012C4E00C7F84F /* BNCoreServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNCoreServices.h; sourceTree = "<group>"; };
+		3C06E6001D012C4E00C7F84F /* BNLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNLocation.h; sourceTree = "<group>"; };
+		3C06E6011D012C4E00C7F84F /* BNLocationManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNLocationManagerProtocol.h; sourceTree = "<group>"; };
+		3C06E6021D012C4E00C7F84F /* BNRoutePlanManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRoutePlanManagerProtocol.h; sourceTree = "<group>"; };
+		3C06E6031D012C4E00C7F84F /* BNRoutePlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRoutePlanModel.h; sourceTree = "<group>"; };
+		3C06E6041D012C4E00C7F84F /* BNSoundEventProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNSoundEventProtocol.h; sourceTree = "<group>"; };
+		3C06E6051D012C4E00C7F84F /* BNStrategyManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNStrategyManagerProtocol.h; sourceTree = "<group>"; };
+		3C06E6061D012C4E00C7F84F /* BNUIManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNUIManagerProtocol.h; sourceTree = "<group>"; };
+		3C06E6151D01361C00C7F84F /* libbaiduNaviSDK_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_arm64.a; sourceTree = "<group>"; };
+		3C06E6161D01361C00C7F84F /* libbaiduNaviSDK_armv7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_armv7.a; sourceTree = "<group>"; };
+		3C06E6171D01361C00C7F84F /* libbaiduNaviSDK_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_i386.a; sourceTree = "<group>"; };
+		3C06E6181D01361C00C7F84F /* libbaiduNaviSDK_x86_64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaiduNaviSDK_x86_64.a; sourceTree = "<group>"; };
 		42FAB2721B9E6E8200AD59E9 /* libuexBaiduNavi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libuexBaiduNavi.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		42FAB28D1B9E6ED200AD59E9 /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
 		42FAB28E1B9E6ED200AD59E9 /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
@@ -53,39 +60,6 @@
 		42FAB29D1B9E6ED200AD59E9 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		42FAB2A31B9E6EE200AD59E9 /* EUExBaiduNavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaiduNavi.h; sourceTree = "<group>"; };
 		42FAB2A41B9E6EE200AD59E9 /* EUExBaiduNavi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EUExBaiduNavi.m; sourceTree = "<group>"; };
-		42FAB2A81B9E70BD00AD59E9 /* baiduNaviSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = baiduNaviSDK.bundle; sourceTree = "<group>"; };
-		42FAB2AA1B9E70BD00AD59E9 /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
-		42FAB2AB1B9E70BD00AD59E9 /* BaiduMobStatForSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStatForSDK.h; sourceTree = "<group>"; };
-		42FAB2AC1B9E70BD00AD59E9 /* libBaiduMobStatForSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStatForSDK.a; sourceTree = "<group>"; };
-		42FAB2AE1B9E70BD00AD59E9 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
-		42FAB2B11B9E70BD00AD59E9 /* CFilteringJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFilteringJSONSerializer.h; sourceTree = "<group>"; };
-		42FAB2B31B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer_BlocksExtensions.h; sourceTree = "<group>"; };
-		42FAB2B41B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer_BlocksExtensions.m; sourceTree = "<group>"; };
-		42FAB2B51B9E70BD00AD59E9 /* CJSONSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerialization.h; sourceTree = "<group>"; };
-		42FAB2B71B9E70BD00AD59E9 /* CJSONSerializedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializedData.h; sourceTree = "<group>"; };
-		42FAB2BA1B9E70BD00AD59E9 /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner_Extensions.h; sourceTree = "<group>"; };
-		42FAB2BB1B9E70BD00AD59E9 /* CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner_Extensions.m; sourceTree = "<group>"; };
-		42FAB2BC1B9E70BD00AD59E9 /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCharacterSet_Extensions.h; sourceTree = "<group>"; };
-		42FAB2BD1B9E70BD00AD59E9 /* NSCharacterSet_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCharacterSet_Extensions.m; sourceTree = "<group>"; };
-		42FAB2BE1B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
-		42FAB2BF1B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
-		42FAB2C01B9E70BD00AD59E9 /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScanner_Extensions.h; sourceTree = "<group>"; };
-		42FAB2C11B9E70BD00AD59E9 /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_Extensions.m; sourceTree = "<group>"; };
-		42FAB2C31B9E70BD00AD59E9 /* CJSONDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDataSerializer.h; sourceTree = "<group>"; };
-		42FAB2C51B9E70BD00AD59E9 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
-		42FAB2C71B9E70BD00AD59E9 /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONScanner.h; sourceTree = "<group>"; };
-		42FAB2C91B9E70BD00AD59E9 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
-		42FAB2CB1B9E70BD00AD59E9 /* CSerializedJSONData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSerializedJSONData.h; sourceTree = "<group>"; };
-		42FAB2CD1B9E70BD00AD59E9 /* JSONRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONRepresentation.h; sourceTree = "<group>"; };
-		42FAB2CF1B9E70BD00AD59E9 /* BNCommonDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNCommonDef.h; sourceTree = "<group>"; };
-		42FAB2D01B9E70BD00AD59E9 /* BNCoreServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNCoreServices.h; sourceTree = "<group>"; };
-		42FAB2D11B9E70BD00AD59E9 /* BNLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNLocation.h; sourceTree = "<group>"; };
-		42FAB2D21B9E70BD00AD59E9 /* BNLocationManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNLocationManagerProtocol.h; sourceTree = "<group>"; };
-		42FAB2D31B9E70BD00AD59E9 /* BNRoutePlanManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRoutePlanManagerProtocol.h; sourceTree = "<group>"; };
-		42FAB2D41B9E70BD00AD59E9 /* BNRoutePlanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRoutePlanModel.h; sourceTree = "<group>"; };
-		42FAB2D51B9E70BD00AD59E9 /* BNSoundEventProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNSoundEventProtocol.h; sourceTree = "<group>"; };
-		42FAB2D61B9E70BD00AD59E9 /* BNStrategyManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNStrategyManagerProtocol.h; sourceTree = "<group>"; };
-		42FAB2D71B9E70BD00AD59E9 /* BNUIManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNUIManagerProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,17 +67,42 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4257CE7E1BA01755006F15B7 /* libbaiduNaviSDK_i386.a in Frameworks */,
-				4257CE7C1BA01755006F15B7 /* libbaiduNaviSDK_arm64.a in Frameworks */,
-				4257CE7F1BA01755006F15B7 /* libbaiduNaviSDK_x86_64.a in Frameworks */,
-				4257CE7D1BA01755006F15B7 /* libbaiduNaviSDK_armv7.a in Frameworks */,
-				42FAB2D91B9E70BD00AD59E9 /* libBaiduMobStatForSDK.a in Frameworks */,
+				3C06E6081D012C4E00C7F84F /* libBaiduMobStat.a in Frameworks */,
+				3C06E61A1D01361C00C7F84F /* libbaiduNaviSDK_armv7.a in Frameworks */,
+				3C06E61C1D01361C00C7F84F /* libbaiduNaviSDK_x86_64.a in Frameworks */,
+				3C06E61B1D01361C00C7F84F /* libbaiduNaviSDK_i386.a in Frameworks */,
+				3C06E6191D01361C00C7F84F /* libbaiduNaviSDK_arm64.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C06E5FA1D012C4E00C7F84F /* BaiduStatistics */ = {
+			isa = PBXGroup;
+			children = (
+				3C06E5FB1D012C4E00C7F84F /* BaiduMobStat.h */,
+				3C06E5FC1D012C4E00C7F84F /* libBaiduMobStat.a */,
+			);
+			path = BaiduStatistics;
+			sourceTree = "<group>";
+		};
+		3C06E5FD1D012C4E00C7F84F /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				3C06E5FE1D012C4E00C7F84F /* BNCommonDef.h */,
+				3C06E5FF1D012C4E00C7F84F /* BNCoreServices.h */,
+				3C06E6001D012C4E00C7F84F /* BNLocation.h */,
+				3C06E6011D012C4E00C7F84F /* BNLocationManagerProtocol.h */,
+				3C06E6021D012C4E00C7F84F /* BNRoutePlanManagerProtocol.h */,
+				3C06E6031D012C4E00C7F84F /* BNRoutePlanModel.h */,
+				3C06E6041D012C4E00C7F84F /* BNSoundEventProtocol.h */,
+				3C06E6051D012C4E00C7F84F /* BNStrategyManagerProtocol.h */,
+				3C06E6061D012C4E00C7F84F /* BNUIManagerProtocol.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
 		42FAB2691B9E6E8200AD59E9 = {
 			isa = PBXGroup;
 			children = (
@@ -170,93 +169,15 @@
 		42FAB2A71B9E70BD00AD59E9 /* BaiduNaviSDK */ = {
 			isa = PBXGroup;
 			children = (
-				4257CE781BA01755006F15B7 /* libbaiduNaviSDK_arm64.a */,
-				4257CE791BA01755006F15B7 /* libbaiduNaviSDK_armv7.a */,
-				4257CE7A1BA01755006F15B7 /* libbaiduNaviSDK_i386.a */,
-				4257CE7B1BA01755006F15B7 /* libbaiduNaviSDK_x86_64.a */,
-				42FAB2A81B9E70BD00AD59E9 /* baiduNaviSDK.bundle */,
-				42FAB2A91B9E70BD00AD59E9 /* BaiduStatistics */,
-				42FAB2CE1B9E70BD00AD59E9 /* inc */,
+				3C06E6151D01361C00C7F84F /* libbaiduNaviSDK_arm64.a */,
+				3C06E6161D01361C00C7F84F /* libbaiduNaviSDK_armv7.a */,
+				3C06E6171D01361C00C7F84F /* libbaiduNaviSDK_i386.a */,
+				3C06E6181D01361C00C7F84F /* libbaiduNaviSDK_x86_64.a */,
+				3C06E5F91D012C4E00C7F84F /* baiduNaviSDK.bundle */,
+				3C06E5FA1D012C4E00C7F84F /* BaiduStatistics */,
+				3C06E5FD1D012C4E00C7F84F /* inc */,
 			);
 			path = BaiduNaviSDK;
-			sourceTree = "<group>";
-		};
-		42FAB2A91B9E70BD00AD59E9 /* BaiduStatistics */ = {
-			isa = PBXGroup;
-			children = (
-				42FAB2AA1B9E70BD00AD59E9 /* BaiduMobStat.h */,
-				42FAB2AB1B9E70BD00AD59E9 /* BaiduMobStatForSDK.h */,
-				42FAB2AC1B9E70BD00AD59E9 /* libBaiduMobStatForSDK.a */,
-				42FAB2AD1B9E70BD00AD59E9 /* TouchJSON */,
-			);
-			path = BaiduStatistics;
-			sourceTree = "<group>";
-		};
-		42FAB2AD1B9E70BD00AD59E9 /* TouchJSON */ = {
-			isa = PBXGroup;
-			children = (
-				42FAB2AE1B9E70BD00AD59E9 /* CDataScanner.h */,
-				42FAB2B01B9E70BD00AD59E9 /* Experimental */,
-				42FAB2B91B9E70BD00AD59E9 /* Extensions */,
-				42FAB2C21B9E70BD00AD59E9 /* JSON */,
-			);
-			path = TouchJSON;
-			sourceTree = "<group>";
-		};
-		42FAB2B01B9E70BD00AD59E9 /* Experimental */ = {
-			isa = PBXGroup;
-			children = (
-				42FAB2B11B9E70BD00AD59E9 /* CFilteringJSONSerializer.h */,
-				42FAB2B31B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.h */,
-				42FAB2B41B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.m */,
-				42FAB2B51B9E70BD00AD59E9 /* CJSONSerialization.h */,
-				42FAB2B71B9E70BD00AD59E9 /* CJSONSerializedData.h */,
-			);
-			path = Experimental;
-			sourceTree = "<group>";
-		};
-		42FAB2B91B9E70BD00AD59E9 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				42FAB2BA1B9E70BD00AD59E9 /* CDataScanner_Extensions.h */,
-				42FAB2BB1B9E70BD00AD59E9 /* CDataScanner_Extensions.m */,
-				42FAB2BC1B9E70BD00AD59E9 /* NSCharacterSet_Extensions.h */,
-				42FAB2BD1B9E70BD00AD59E9 /* NSCharacterSet_Extensions.m */,
-				42FAB2BE1B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.h */,
-				42FAB2BF1B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.m */,
-				42FAB2C01B9E70BD00AD59E9 /* NSScanner_Extensions.h */,
-				42FAB2C11B9E70BD00AD59E9 /* NSScanner_Extensions.m */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		42FAB2C21B9E70BD00AD59E9 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				42FAB2C31B9E70BD00AD59E9 /* CJSONDataSerializer.h */,
-				42FAB2C51B9E70BD00AD59E9 /* CJSONDeserializer.h */,
-				42FAB2C71B9E70BD00AD59E9 /* CJSONScanner.h */,
-				42FAB2C91B9E70BD00AD59E9 /* CJSONSerializer.h */,
-				42FAB2CB1B9E70BD00AD59E9 /* CSerializedJSONData.h */,
-				42FAB2CD1B9E70BD00AD59E9 /* JSONRepresentation.h */,
-			);
-			path = JSON;
-			sourceTree = "<group>";
-		};
-		42FAB2CE1B9E70BD00AD59E9 /* inc */ = {
-			isa = PBXGroup;
-			children = (
-				42FAB2CF1B9E70BD00AD59E9 /* BNCommonDef.h */,
-				42FAB2D01B9E70BD00AD59E9 /* BNCoreServices.h */,
-				42FAB2D11B9E70BD00AD59E9 /* BNLocation.h */,
-				42FAB2D21B9E70BD00AD59E9 /* BNLocationManagerProtocol.h */,
-				42FAB2D31B9E70BD00AD59E9 /* BNRoutePlanManagerProtocol.h */,
-				42FAB2D41B9E70BD00AD59E9 /* BNRoutePlanModel.h */,
-				42FAB2D51B9E70BD00AD59E9 /* BNSoundEventProtocol.h */,
-				42FAB2D61B9E70BD00AD59E9 /* BNStrategyManagerProtocol.h */,
-				42FAB2D71B9E70BD00AD59E9 /* BNUIManagerProtocol.h */,
-			);
-			path = inc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,12 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42FAB2DC1B9E70BD00AD59E9 /* CJSONDeserializer_BlocksExtensions.m in Sources */,
-				42FAB2E21B9E70BD00AD59E9 /* NSScanner_Extensions.m in Sources */,
-				42FAB2E11B9E70BD00AD59E9 /* NSDictionary_JSONExtensions.m in Sources */,
 				42FAB2A51B9E6EE200AD59E9 /* EUExBaiduNavi.m in Sources */,
-				42FAB2DF1B9E70BD00AD59E9 /* CDataScanner_Extensions.m in Sources */,
-				42FAB2E01B9E70BD00AD59E9 /* NSCharacterSet_Extensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

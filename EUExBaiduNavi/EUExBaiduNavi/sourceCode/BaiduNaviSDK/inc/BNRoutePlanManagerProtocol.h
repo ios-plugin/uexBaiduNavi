@@ -75,13 +75,19 @@
  *
  *  @param node
  */
-
 /**
- *  在导航中重新设置目的地
+ *  在导航中重新设置终点
  *
  *  @param node 终点节点
  */
 -(void)resetEndPointWithNode:(BNRoutePlanNode *)node;
+
+/**
+ *	获取当前规划方式的路线详情信息
+ *  param [in] stRouteIdx   路线下标    多路线为选择的路线下标，单路线就传0
+ *	@return	返回路线详情信息
+ */
+-(BNRouteDetailInfo*)getCurrentRouteDetailInfo:(int)stRouteIdx;
 
 @end
 

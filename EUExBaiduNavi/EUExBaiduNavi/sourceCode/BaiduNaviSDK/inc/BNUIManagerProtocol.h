@@ -34,6 +34,14 @@
 - (BOOL)showNaviUI:(BN_NaviType)eType delegete:(id<BNNaviUIManagerDelegate>)delegate isNeedLandscape:(BOOL)isNeedLandscape;
 
 /**
+ *  获取导航窗口, acquire the navigation window
+ *
+ *  @return 导航窗口, navigation window
+ */
+- (UIWindow *)getNaviWindow;
+
+
+/**
  *  进入电子狗页面
  *
  *  @param isNeedLandscape 是否需要横竖屏切换，默认竖屏
@@ -43,13 +51,7 @@
  */
 - (BOOL)showDigitDogUI:(BOOL)isNeedLandscape delegete:(id<BNNaviUIManagerDelegate>)delegate;
 
-/**
- *  安静退出导航(无弾框)
- *
- *  @param userInfo 保留,将来使用
- *
- *  @return TRUE: 退出成功, FALSE: 退出失败
- */
+// 退出导航页面
 - (BOOL)exitNaviUI:(NSDictionary *)userInfo;
 
 @end
