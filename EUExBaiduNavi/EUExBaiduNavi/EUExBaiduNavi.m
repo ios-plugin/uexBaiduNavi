@@ -7,8 +7,6 @@
 //
 
 #import "EUExBaiduNavi.h"
-#import "JSON.h"
-#import "EUtility.h"
 #import "BNCoreServices.h"
 
 @interface EUExBaiduNavi()<BNNaviRoutePlanDelegate,BNNaviUIManagerDelegate>
@@ -17,6 +15,7 @@
 @property (nonatomic,strong) NSMutableArray *externalGPSArray;
 @property (nonatomic,strong) NSTimer* externalGPSTimer;
 @property (nonatomic,assign) int externalGPSIndex;
+@property (nonatomic,strong) ACJSFunctionRef *cbStartRoutePlan;
 @end
 
 
@@ -28,20 +27,23 @@
 @implementation EUExBaiduNavi
 
 
--(instancetype)initWithBrwView:(EBrowserView *)eInBrwView{
-    self=[super initWithBrwView:eInBrwView];
-    if(self){
+- (instancetype)initWithWebViewEngine:(id<AppCanWebViewEngineObject>)engine{
+    self = [super initWithWebViewEngine:engine];
+    if (self) {
         _useExternalGPS = NO;
         _externalGPSArray = [NSMutableArray array];
     }
     return self;
 }
 
--(void)clean{
-    
+
+- (void)clean{
+    [self.externalGPSTimer invalidate];
+    self.externalGPSTimer = nil;
+    self.cbStartRoutePlan = nil;
 }
 
--(void)dealloc{
+- (void)dealloc{
     [self clean];
 }
 
@@ -59,21 +61,24 @@
  *  }
  *  注：百度APIKey由用户在在百度LBS开放平台申请得来
  */
--(void)init:(NSMutableArray*)inArguments{
+- (void)init:(NSMutableArray*)inArguments{
     
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        if(!isSuccess || !isDicionary){
-            return;
-        }
-        [BNCoreServices_Instance initServices:[data objectForKey:@"baiduAPIKey"]];
-        [BNCoreServices_Instance startServicesAsyn:^{
-            [self callBackJsonWithName:@"cbInit" object:@{@"isSuccess":@(YES)}];
-        } fail:^{
-            [self callBackJsonWithName:@"cbInit" object:@{@"isSuccess":@(NO)}];
-        }];
-
-        
+    ACArgsUnpack(NSDictionary *info,ACJSFunctionRef *cb) = inArguments;
+    NSString *key = stringArg(info[@"baiduAPIKey"]);
+    
+    void (^callback)(BOOL result) = ^(BOOL result){
+        NSDictionary *dict = @{@"isSuccess":@(result)};
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.cbInit" arguments:ACArgsPack(dict.ac_JSONFragment)];
+        [cb executeWithArguments:ACArgsPack(dict)];
+    };
+    
+    [BNCoreServices_Instance initServices:key];
+    [BNCoreServices_Instance startServicesAsyn:^{
+        callback(YES);
+    } fail:^{
+        callback(NO);
     }];
+
 }
 
 
@@ -93,60 +98,60 @@
  *      extras:// 可选，用户传入的参数
  *	}
  */
--(void)startRoutePlan:(NSMutableArray *)inArguments{
+- (void)startRoutePlan:(NSMutableArray *)inArguments{
     
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        if(!isSuccess||!isDicionary){
-            return;
+    ACArgsUnpack(NSDictionary *info,ACJSFunctionRef *cb) = inArguments;
+    
+    NSMutableArray *nodesArray = [NSMutableArray array];
+    
+    BNRoutePlanNode *startNode = [[BNRoutePlanNode alloc] init];
+    startNode.pos = [[BNPosition alloc] init];
+    NSArray *startPosition = arrayArg(info[@"startNode"]);
+    startNode.pos.x = [startPosition[0] doubleValue];
+    startNode.pos.y = [startPosition[1] doubleValue];
+    startNode.pos.eType = BNCoordinate_BaiduMapSDK;
+    
+    [nodesArray addObject:startNode];
+    
+    NSArray * throughNodes=arrayArg(info[@"throughNodes"]);
+    if(throughNodes && [throughNodes isKindOfClass:[NSArray class]] &&[throughNodes count]>0){
+        for(NSArray * throughPosition in throughNodes){
+            BNRoutePlanNode *throughNode = [[BNRoutePlanNode alloc] init];
+            throughNode.pos = [[BNPosition alloc] init];
+            throughNode.pos.x = [throughPosition[0] doubleValue];
+            throughNode.pos.y = [throughPosition[1] doubleValue];
+            throughNode.pos.eType = BNCoordinate_BaiduMapSDK;
+            [nodesArray addObject:throughNode];
         }
-        NSMutableArray *nodesArray = [NSMutableArray array];
-        
-        BNRoutePlanNode *startNode = [[BNRoutePlanNode alloc] init];
-        startNode.pos = [[BNPosition alloc] init];
-        NSArray *startPosition=[data objectForKey:@"startNode"];
-        startNode.pos.x = [startPosition[0] doubleValue];
-        startNode.pos.y = [startPosition[1] doubleValue];
-        startNode.pos.eType = BNCoordinate_BaiduMapSDK;
-        
-        [nodesArray addObject:startNode];
-        
-        id throughNodes=[data objectForKey:@"throughNodes"];
-        if(throughNodes && [throughNodes isKindOfClass:[NSArray class]] &&[throughNodes count]>0){
-            for(NSArray * throughPosition in throughNodes){
-                BNRoutePlanNode *throughNode = [[BNRoutePlanNode alloc] init];
-                throughNode.pos = [[BNPosition alloc] init];
-                throughNode.pos.x = [throughPosition[0] doubleValue];
-                throughNode.pos.y = [throughPosition[1] doubleValue];
-                throughNode.pos.eType = BNCoordinate_BaiduMapSDK;
-                [nodesArray addObject:throughNode];
-                
-                
-            }
-        }
-        
-        BNRoutePlanNode *endNode = [[BNRoutePlanNode alloc] init];
-        endNode.pos = [[BNPosition alloc] init];
-        NSArray *endPosition=[data objectForKey:@"endNode"];
-        endNode.pos.x = [endPosition[0] doubleValue];
-        endNode.pos.y = [endPosition[1] doubleValue];
-        endNode.pos.eType = BNCoordinate_BaiduMapSDK;
-        [nodesArray addObject:endNode];
-        
-        
-        BNRoutePlanMode routeType=BNRoutePlanMode_Recommend;
-        NSString* mode =[data objectForKey:@"mode"];
-        if([mode integerValue]==2){
-            routeType = BNRoutePlanMode_Highway;
-        }else if([mode  integerValue]==3){
-            routeType = BNRoutePlanMode_NoHighway;
-        }
-        NSDictionary * extras=nil;
-        if([data objectForKey:@"extras"]&&[[data objectForKey:@"extras"]isKindOfClass:[NSDictionary class]]){
-            extras=[data objectForKey:@"extras"];
-        }
-        [BNCoreServices_RoutePlan  startNaviRoutePlan: routeType naviNodes:nodesArray time:nil delegete:self userInfo:extras];
-        
-    }];
+    }
+    BNRoutePlanNode *endNode = [[BNRoutePlanNode alloc] init];
+    endNode.pos = [[BNPosition alloc] init];
+    NSArray *endPosition=arrayArg(info[@"endNode"]);
+    endNode.pos.x = [endPosition[0] doubleValue];
+    endNode.pos.y = [endPosition[1] doubleValue];
+    endNode.pos.eType = BNCoordinate_BaiduMapSDK;
+    [nodesArray addObject:endNode];
+    
+    BNRoutePlanMode routeType=BNRoutePlanMode_Recommend;
+    NSInteger mode = [info[@"mode"] integerValue];
+    if(mode == 2){
+        routeType = BNRoutePlanMode_Highway;
+    }else if(mode == 3){
+        routeType = BNRoutePlanMode_NoHighway;
+    }
+    NSDictionary * extras = dictionaryArg(info[@"extras"]);
+    
+    [BNCoreServices_RoutePlan  startNaviRoutePlan: routeType naviNodes:nodesArray time:nil delegete:self userInfo:extras];
+    self.cbStartRoutePlan = cb;
+}
+
+
+
+
+- (void)cbStartRoutePlan:(NSDictionary *)dict{
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.cbStartRoutePlan" arguments:ACArgsPack(dict.ac_JSONFragment)];
+    [self.cbStartRoutePlan executeWithArguments:ACArgsPack(dict)];
+    self.cbStartRoutePlan = nil;
 }
 
 /**
@@ -157,11 +162,11 @@
  */
 
 
--(void)routePlanDidFinished:(NSDictionary *)userInfo{
+- (void)routePlanDidFinished:(NSDictionary *)userInfo{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:@1 forKey:@"resultCode"];
     [dict setValue:userInfo forKey:@"extras"];
-    [self callBackJsonWithName:@"cbStartRoutePlan" object:dict];
+    [self cbStartRoutePlan:dict];
 }
 
 
@@ -180,7 +185,7 @@
 - (void)routePlanDidFailedWithError:(NSError *)error andUserInfo:(NSDictionary *)userInfo{
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    NSNumber *errorCode=@0;
+    NSNumber *errorCode = @0;
     if ([error code] == BNRoutePlanError_LocationFailed) {
         errorCode = @1;
     }else if ([error code] == BNRoutePlanError_RoutePlanFailed){
@@ -197,7 +202,7 @@
     [dict setValue:errorCode forKey:@"error"];
     [dict setValue:@2 forKey:@"resultCode"];
     [dict setValue:userInfo forKey:@"extras"];
-    [self callBackJsonWithName:@"cbStartRoutePlan" object:dict];
+    [self cbStartRoutePlan:dict];
 }
 
 
@@ -208,11 +213,11 @@
  *  @param
  *      extras 用户传入的参数
  */
--(void)routePlanDidUserCanceled:(NSDictionary*)userInfo {
+- (void)routePlanDidUserCanceled:(NSDictionary*)userInfo {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:@3 forKey:@"resultCode"];
     [dict setValue:userInfo forKey:@"extras"];
-    [self callBackJsonWithName:@"cbStartRoutePlan" object:dict];
+    [self cbStartRoutePlan:dict];
 }
 
 
@@ -235,37 +240,29 @@
  *      isNeedLandscape;// 是否需要横竖屏切换 默认竖屏 1-需要(默认) 2-不需要
  *  }
  */
--(void)startNavi:(NSMutableArray *)inArguments{
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        BN_NaviType naviType=BN_NaviTypeReal;
-        BOOL isNeedLandscape = YES;
-        if(isSuccess&&isDicionary){
-            if([[data objectForKey:@"naviType"]integerValue]==2){
-                naviType = BN_NaviTypeSimulator;
-            }
-            if([[data objectForKey:@" isNeedLandscape"]integerValue]==2){
-                isNeedLandscape = NO;
-            }
+- (void)startNavi:(NSMutableArray *)inArguments{
+    ACArgsUnpack(NSDictionary *info) = inArguments;
+    BN_NaviType naviType=BN_NaviTypeReal;
+    BOOL isNeedLandscape = YES;
 
-        }
-        [BNCoreServices_UI showNaviUI:naviType delegete:self isNeedLandscape:isNeedLandscape];
+    if([info[@"naviType"] integerValue] == 2){
+        naviType = BN_NaviTypeSimulator;
+    }
+    if([info[@"isNeedLandscape"] integerValue] == 2){
+        isNeedLandscape = NO;
+    }
+    [BNCoreServices_UI showNaviUI:naviType delegete:self isNeedLandscape:isNeedLandscape];
 
-    }];
    
     
     
 }
 
 
--(void)exitNavi:(NSMutableArray *)inArguments{
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        NSDictionary* extras=nil;
-        if(isSuccess&&isDicionary&&[data objectForKey:@"extras"]&&[[data objectForKey:@"extras"] isKindOfClass:[NSDictionary class]]){
-            extras =[data objectForKey:@"extras"];
-        }
-        [BNCoreServices_UI exitNaviUI:extras];
-    }];
-    
+- (void)exitNavi:(NSMutableArray *)inArguments{
+    ACArgsUnpack(NSDictionary *info) = inArguments;
+    NSDictionary* extras = dictionaryArg(info[@"extras"]);
+    [BNCoreServices_UI exitNaviUI:extras];
 }
 
 
@@ -275,15 +272,14 @@
  *
  *  @param
  */
--(void)onExitNaviUI:(NSDictionary*)extraInfo{
-    
+- (void)onExitNaviUI:(NSDictionary*)extraInfo{
     if(!self.useExternalGPS){
-        [self callBackJsonWithName:@"onExitNavi" object:nil];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.onExitNavi" arguments:nil];
     }else{
         [BNCoreServices_Location setGpsFromExternal:NO];
-        self.useExternalGPS=NO;
+        self.useExternalGPS = NO;
         [self stopPostGPS];
-        [self callBackJsonWithName:@"onExitExternalGPSNavi" object:nil];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.onExitExternalGPSNavi" arguments:nil];
     }
     
 }
@@ -296,9 +292,9 @@
  *  @param 
  *  注：仅在第一次进入导航页面时，会显示导航声明页面
  */
--(void)onExitDeclarationUI:(NSDictionary*)extraInfo
-{
-    [self callBackJsonWithName:@"onExitDeclaration" object:nil];
+- (void)onExitDeclarationUI:(NSDictionary*)extraInfo{
+    [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.onExitDeclaration" arguments:nil];
+
 }
 
 #pragma mark - 巡航功能
@@ -316,18 +312,13 @@
  */
 
 
--(void) startDigitDog:(NSMutableArray *)inArguments{
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        BOOL isNeedLandscape = YES;
-        if(isSuccess&&isDicionary){
-            if([[data objectForKey:@"isNeedLandscape"] integerValue]==2){
-                isNeedLandscape = NO;
-            }
-        }
-        
-        [BNCoreServices_UI showDigitDogUI:isNeedLandscape delegete:self];
-
-    }];
+- (void)startDigitDog:(NSMutableArray *)inArguments{
+    ACArgsUnpack(NSDictionary *info) = inArguments;
+    BOOL isNeedLandscape = YES;
+    if ([info[@"isNeedLandscape"] integerValue] == 2) {
+        isNeedLandscape = NO;
+    }
+    [BNCoreServices_UI showDigitDogUI:isNeedLandscape delegete:self];
 }
 
 /**
@@ -336,17 +327,16 @@
  *
  *  @param
  */
--(void)onExitDigitDogUI:(NSDictionary*)extraInfo
+- (void)onExitDigitDogUI:(NSDictionary*)extraInfo
 {
     
     if(!self.useExternalGPS){
-        
-        [self callBackJsonWithName:@"onExitDigitDog" object:nil];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.onExitDigitDog" arguments:nil];
     }else{
-        self.useExternalGPS=NO;
+        self.useExternalGPS = NO;
         [BNCoreServices_Location setGpsFromExternal:NO];
         [self stopPostGPS];
-        [self callBackJsonWithName:@"onExitExternalGPSDigitDog" object:nil];
+         [self.webViewEngine callbackWithFunctionKeyPath:@"uexBaiduNavi.onExitExternalGPSDigitDog" arguments:nil];
     }
 }
 
@@ -374,69 +364,57 @@
  *  }
  */
 
--(void)loadExternalGPSData:(NSMutableArray *)inArguments{
+- (void)loadExternalGPSData:(NSMutableArray *)inArguments{
+    ACArgsUnpack(NSDictionary *info) = inArguments;
+    NSString *filePath = stringArg(info[@"filePath"]);
+
     
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        if(!isSuccess||!isDicionary){
+    [self.externalGPSArray removeAllObjects];
+    self.externalGPSIndex = 0;
+    NSError *error = nil;
+    NSString* gpsText = [NSString stringWithContentsOfFile:[self absPath:filePath]
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:&error];
+    if (error || !gpsText || gpsText.length == 0) {
+        return;
+    }
+    NSArray* gpsArray = [gpsText componentsSeparatedByString:@"\n"];
+    [gpsArray enumerateObjectsUsingBlock:^(NSString *  _Nonnull aGPS, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *aGPSInfo = dictionaryArg([aGPS stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]);
+        if (!aGPSInfo) {
             return;
         }
-        [self.externalGPSArray removeAllObjects];
-        self.externalGPSIndex=0;
-        NSError *error = nil;
-        NSString* gpsText = [NSString stringWithContentsOfFile:[self absPath:[data objectForKey:@"filePath"]]
-                                                      encoding:NSUTF8StringEncoding
-                                                         error:&error];
-        if(error||[gpsText length]==0){
-            return;
-        }
-        NSArray* gpsArray = [gpsText componentsSeparatedByString:@"\r\n"];
-        
-        for (NSString* aGPS in gpsArray){
-            error=nil;
-            NSData *jsonData= [aGPS dataUsingEncoding:NSUTF8StringEncoding];
-            id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                            options:NSJSONReadingMutableContainers
-                                                              error:&error];
-            
-            if(!error&&[jsonObject isKindOfClass:[NSDictionary class]]){
-                //设置gps数据
-                BNLocation* oneGPSInfo = [[BNLocation alloc] init];
-                double longitude = [[jsonObject objectForKey:@"longitude"] doubleValue];
-                double latitude = [[jsonObject objectForKey:@"latitude"] doubleValue];
-                double speed = [[jsonObject objectForKey:@"speed"] doubleValue];
-                double direction =[[jsonObject objectForKey:@"direction"] doubleValue];
-                double accuracy = [[jsonObject objectForKey:@"accuracy"] doubleValue];
-                double attitude = [[jsonObject objectForKey:@"attitude"] doubleValue];
-                oneGPSInfo.coordinate = CLLocationCoordinate2DMake(longitude,latitude);
-                oneGPSInfo.speed = speed;
-                oneGPSInfo.course = direction;
-                oneGPSInfo.horizontalAccuracy = accuracy;
-                oneGPSInfo.verticalAccuracy = 0;
-                oneGPSInfo.altitude = attitude;
-                [self.externalGPSArray addObject:oneGPSInfo];
-            }
-            
-        }
+        BNLocation* oneGPSInfo = [[BNLocation alloc] init];
+        double longitude = [aGPSInfo[@"longitude"] doubleValue];
+        double latitude = [aGPSInfo[@"latitude"] doubleValue];
+        double speed = [aGPSInfo[@"speed"] doubleValue];
+        double direction =[aGPSInfo[@"direction"] doubleValue];
+        double accuracy = [aGPSInfo[@"accuracy"] doubleValue];
+        double attitude = [aGPSInfo[@"attitude"] doubleValue];
+        oneGPSInfo.coordinate = CLLocationCoordinate2DMake(longitude,latitude);
+        oneGPSInfo.speed = speed;
+        oneGPSInfo.course = direction;
+        oneGPSInfo.horizontalAccuracy = accuracy;
+        oneGPSInfo.verticalAccuracy = 0;
+        oneGPSInfo.altitude = attitude;
+        [self.externalGPSArray addObject:oneGPSInfo];
     }];
+    
 }
 
 
-- (void)startPostGPS
-{
+- (void)startPostGPS{
     self.externalGPSIndex = 0;
     self.externalGPSTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(postGPS) userInfo:nil repeats:YES];
-    
     [self.externalGPSTimer fire];
 }
 
-- (void)stopPostGPS
-{
+- (void)stopPostGPS{
     [self.externalGPSTimer invalidate];
     self.externalGPSTimer = nil;
 }
 
-- (void)postGPS
-{
+- (void)postGPS{
     if (!self.externalGPSArray || self.externalGPSArray.count == 0 || self.externalGPSArray.count <= self.externalGPSIndex){
         return;
     }
@@ -451,21 +429,19 @@
  *      isNeedLandscape;// (可选参数)是否需要横竖屏切换 默认竖屏 1-需要(默认) 2-不需要
  *  }
  */
--(void) startExternalGPSNavi:(NSMutableArray *)inArguments{
+- (void) startExternalGPSNavi:(NSMutableArray *)inArguments{
+    ACArgsUnpack(NSDictionary *info) = inArguments;
+    self.useExternalGPS = YES;
     
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        self.useExternalGPS = YES;
-        
-        
-        BOOL isNeedLandscape = YES;
-        if(isSuccess&&isDicionary&&[[data objectForKey:@" isNeedLandscape"] integerValue]==2){
-            isNeedLandscape = NO;
-        }
-        [BNCoreServices_Location setGpsFromExternal:YES];
-        [BNCoreServices_UI showNaviUI:BN_NaviTypeReal delegete:self isNeedLandscape:isNeedLandscape];
-        [self startPostGPS];
+    
+    BOOL isNeedLandscape = YES;
+    if ([info[@"isNeedLandscape"] integerValue] == 2) {
+        isNeedLandscape = NO;
+    }
+    [BNCoreServices_Location setGpsFromExternal:YES];
+    [BNCoreServices_UI showNaviUI:BN_NaviTypeReal delegete:self isNeedLandscape:isNeedLandscape];
+    [self startPostGPS];
 
-    }];
 
 }
 
@@ -477,26 +453,26 @@
  *      isNeedLandscape;// 可选参数 是否需要横竖屏切换 默认竖屏 1-需要 2-不需要
  *  }
  */
--(void)startExternalGPSDigitDog:(NSMutableArray *)inArguments{
-    self.useExternalGPS=YES;
-    [self parseJson:inArguments completion:^(id data, BOOL isSuccess, BOOL isDicionary) {
-        BOOL isNeedLandscape = YES;
-        if(isSuccess&&isDicionary&&[[data objectForKey:@" isNeedLandscape"] integerValue]==2){
-            isNeedLandscape = NO;
-        }
-        [BNCoreServices_Location setGpsFromExternal:YES];
-        //显示巡航UI
-        [BNCoreServices_UI showDigitDogUI:isNeedLandscape delegete:self];
-        //开始发送gps
-        [self startPostGPS];
-    }];
+- (void)startExternalGPSDigitDog:(NSMutableArray *)inArguments{
+    self.useExternalGPS = YES;
+    ACArgsUnpack(NSDictionary *info) = inArguments;
+    BOOL isNeedLandscape = YES;
+    if ([info[@"isNeedLandscape"] integerValue] == 2) {
+        isNeedLandscape = NO;
+    }
+    [BNCoreServices_Location setGpsFromExternal:YES];
+    //显示巡航UI
+    [BNCoreServices_UI showDigitDogUI:isNeedLandscape delegete:self];
+    //开始发送gps
+    [self startPostGPS];
 }
 
+/*
 
 
 #pragma mark - json I/O
 //回调名为name 内容为dict的json字符串
--(void) callBackJsonWithName:(NSString *)name object:(id)obj{
+- (void) callBackJsonWithName:(NSString *)name object:(id)obj{
     NSString *jsonData=[obj JSONFragment];
     NSString *jsStr = [NSString stringWithFormat:@"if(uexBaiduNavi.%@ != null){uexBaiduNavi.%@('%@');}",name,name,jsonData];
     
@@ -523,7 +499,7 @@
 }
 
 
--(void)parseJson:(NSMutableArray *)inArguments completion:(void (^)(id data,BOOL isSuccess,__unused BOOL isDicionary))completion{
+- (void)parseJson:(NSMutableArray *)inArguments completion:(void (^)(id data,BOOL isSuccess,__unused BOOL isDicionary))completion{
     if([inArguments count]==0){
         if(completion){
             completion(nil,NO,NO);
@@ -540,5 +516,5 @@
     }
 }
 
-
+*/
 @end
