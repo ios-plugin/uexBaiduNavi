@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <uexplugins>
     <plugin
-        uexName="uexBaiduNavi" version="3.0.1" build="1">
-        <info>1:升级SDK2.0.7-支持IPv6;必须开启后台权限</info>
+        uexName="uexBaiduNavi" version="3.0.2" build="2">
+        <info>2:移除默认的定位权限配置</info>
+        <build>1:升级SDK2.0.7-支持IPv6;必须开启后台权限</build>
         <build>0:百度导航(BaiduNavi)插件 for iOS</build>
     </plugin>
 </uexplugins>
